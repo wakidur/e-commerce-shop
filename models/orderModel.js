@@ -31,6 +31,15 @@ const OrderSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please add a Items price'],
   },
+  orderStatus: {
+    type: String,
+    required: [true, 'A Order must have a order status'],
+    enum: {
+      values: ['Pending', 'Confimed', 'Cancelled'],
+      message: 'Order status is either: All, Pending, Confimed, Cancelled',
+    },
+    default: 'Pending',
+  },
   taxPrice: {
     type: Number,
     required: false,
@@ -46,17 +55,6 @@ const OrderSchema = new mongoose.Schema({
   totalPrice: {
     type: Number,
     required: [true, 'Please add a total price'],
-  },
-  isPaid: {
-    type: Boolean,
-    default: false,
-  },
-  paidAt: {
-    type: Date,
-  },
-  isDelivered: {
-    type: Boolean,
-    default: false,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,

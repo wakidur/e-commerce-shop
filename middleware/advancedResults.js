@@ -44,9 +44,11 @@ const advancedResults = (model, populate, findById) => async (
   if (findById && Object.keys(req.params).length) {
     const isValidID = await isMongoDBObjectID(req.params[findById.paramsName]);
     if (!isValidID) {
-      return next(new ErrorResponse(`${Message.bootcampIdNotValid}`, 400));
+      return next(new ErrorResponse('This is not Valid Mongodb Id', 400));
     }
-    query = model.find({ [findById.fieldName]: req.params.bootcampId });
+    query = model.find({
+      [findById.fieldName]: req.params[findById.paramsName],
+    });
   }
 
   // 2) Sort / Sorting
@@ -84,7 +86,7 @@ const advancedResults = (model, populate, findById) => async (
   const currentPage = parseInt(req.query.page, 10) || 1;
   const limit = parseInt(req.query.limit, 10) || 10;
   const startIndex = (currentPage - 1) * limit;
-  const endIndex = currentPage * limit;
+  // const endIndex = currentPage * limit;
   const totalItems = await model.countDocuments();
   //
   query = query.skip(startIndex).limit(limit);
