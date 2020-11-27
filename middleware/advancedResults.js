@@ -1,5 +1,5 @@
 const ErrorResponse = require('../utilities/error-response');
-const UtilityService = require('../service/utils/utilityService');
+const { isMongoDBObjectID } = require('../service/utilityService');
 const Message = require('../utilities/message');
 const paginate = require('../utilities/paginate');
 
@@ -42,9 +42,7 @@ const advancedResults = (model, populate, findById) => async (
 
   // support Find By Id
   if (findById && Object.keys(req.params).length) {
-    const isValidID = await UtilityService.isMongoDBObjectID(
-      req.params[findById.paramsName]
-    );
+    const isValidID = await isMongoDBObjectID(req.params[findById.paramsName]);
     if (!isValidID) {
       return next(new ErrorResponse(`${Message.bootcampIdNotValid}`, 400));
     }

@@ -17,7 +17,6 @@ const cors = require('cors');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
-const listEndpoints = require('express-list-endpoints');
 const bodyParser = require('body-parser');
 
 // require and configure dotenv, will load vars in .env in PROCESS.ENV
@@ -27,24 +26,12 @@ const globalErrorHandler = require('./middleware/error-handler');
 // Database connection
 const connectDB = require('./config/db-config');
 
-/**
- * passport config.
- */
-const passportConfig = require('./config/passport-config');
 // Error Response Class
 const ErrorResponse = require('./utilities/error-response');
 /**
  * route handlers files.
  */
-const authRouter = require('./routes/users/authRoutes');
-const userRouter = require('./routes/users/userRoutes');
-const userManageRouter = require('./routes/users/userManageRoutes');
-// Nature Tour
-const tourRouter = require('./routes/nature-tours/tourRoutes');
-const tourReviewRouter = require('./routes/nature-tours/tourReviewRoutes');
-const tourBookingRouter = require('./routes/nature-tours/tourBookingRoutes');
-const businessRouter = require('./routes/business/businessRoutes');
-const { RegisterResource } = require('./service/utils/utilityService');
+const authRouter = require('./routes/authRoutes');
 
 /**
  * Create Express server.
@@ -94,22 +81,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(passportConfig.initialize());
-
 // API ROUTES
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/usermanage', userManageRouter);
-// Business
-app.use('/api/v1/business', businessRouter);
-// Nature Tour
-app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/tour-reviews', tourReviewRouter);
-app.use('/api/v1/tour-bookings', tourBookingRouter);
-
-app.use('/api/v1/rbac/acl', (req, res, next) => {
-  RegisterResource(req, res, next, listEndpoints(app));
-});
 
 app.all('*', (req, res, next) => {
   next(new ErrorResponse(`Can't find ${req.originalUrl} on this server!`, 404));

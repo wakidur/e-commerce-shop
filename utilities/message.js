@@ -5,6 +5,7 @@
  */
 module.exports = Object.freeze({
   // Common Message
+  THIS_IN_VALID_MONGODB_ID: 'This is not valid mongodb id',
   RequestBodyIsEmpty: 'Request body is empty!',
   DATAFETCH: 'Data fetching successful!',
   CREATESUCCESSFUL: 'Create successful!',
