@@ -19,7 +19,7 @@ const Product = require('../models/productModel');
 router
   .route('/')
   .get(advanceResults(Product), getProducts)
-  .post(protect, authorize('admin'), uploadUserPhoto, createProduct);
+  .post(protect, authorize('admin'), createProduct);
 
 router
   .route('/:productId')
