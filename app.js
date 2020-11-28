@@ -32,7 +32,10 @@ const ErrorResponse = require('./utilities/error-response');
  * route handlers files.
  */
 const authRouter = require('./routes/authRoutes');
-
+const productRouter = require('./routes/productRoutes');
+const promoCodeRouter = require('./routes/promoCodeRoutes');
+const orderRouter = require('./routes/orderRoutes');
+const promoCodeUsesRouter = require('./routes/promoCodeUsesByUserRoutes');
 /**
  * Create Express server.
  */
@@ -83,7 +86,22 @@ if (process.env.NODE_ENV === 'development') {
 
 // API ROUTES
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/product', productRouter);
+app.use('/api/v1/promocode', promoCodeRouter);
+app.use('/api/v1/order', orderRouter);
+app.use('/api/v1/promocodeuses', promoCodeUsesRouter);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/client/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....');
+  });
+}
 app.all('*', (req, res, next) => {
   next(new ErrorResponse(`Can't find ${req.originalUrl} on this server!`, 404));
 });

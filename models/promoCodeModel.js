@@ -26,7 +26,6 @@ const PromoCodeSchema = new mongoose.Schema(
     active: {
       type: Boolean,
       default: false,
-      select: false,
     },
     createdAt: {
       type: Date,

@@ -34,10 +34,17 @@ const sendTokenResponse = (user, statusCode, req, res) => {
   }
 
   res.cookie('jwt', token, options);
-
+  const userData = {
+    id: user._id,
+    name: user.phone,
+    uid: user.uid,
+    email: user.email,
+    role: user.role,
+  };
   return res.status(statusCode).json({
     status: 'success',
     token,
+    authData: userData,
   });
 };
 
@@ -62,6 +69,16 @@ exports.signup = asyncHandler(async (req, res, next) => {
   // 2.1) Validate check with request body
   // Validate request body by the JOI Schema
   const createtingUserObject = await UserJoiSchema.validateAsync(req.body);
+
+  //  3) Find the User by phone.
+  const findUserExist = await MongooseQuery.findOne(User, {
+    phone: createtingUserObject.phone,
+  });
+
+  //  3.1) Find the User by phone exist or not
+  if (!findUserExist) {
+    return next(new ErrorResponse('This phone number already exist', 400));
+  }
 
   const newUser = await MongooseQuery.create(User, createtingUserObject);
 

@@ -162,9 +162,10 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     status: 'success',
     message: 'Product Updated Successfully',
-    data: { updatedProduct },
+    data: { product: updatedProduct },
   });
 });
+
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const deleteProduct = await mongooseQuery.findByIdAndDelete(
     Product,
