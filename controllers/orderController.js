@@ -19,24 +19,15 @@ const Order = require('../models/orderModel');
 exports.getOrders = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
-    message: 'Promo Code fetching Successfully',
+    message: 'Orders fetching Successfully',
     data: {
       orders: res.advanceResults,
     },
   });
 });
 
-exports.authOrder = asyncHandler(async (req, res, next) => {
-  const authOrders = await Order.find({ userId: req.user._id });
-  return res.status(200).send({
-    status: 'success',
-    count: authOrders.length,
-    data: authOrders,
-  });
-});
-
 exports.getOrder = asyncHandler(async (req, res, next) => {
-  const findOrder = await Order.findById(req.params.orderId).populate({
+  const findOrder = await MongooseQuery.findById(Order, req.params.orderId, {
     path: 'userId',
     select: 'name email',
   });
@@ -51,25 +42,26 @@ exports.getOrder = asyncHandler(async (req, res, next) => {
 
   res.status(200).send({
     status: 'success',
-    data: findOrder,
+    message: 'Particular Order fetch Successfully',
+    data: { order: findOrder },
   });
 });
 
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const newOrder = await Order.create({
+  const newOrder = await MongooseQuery.create(Order, {
     ...req.body,
     userId: req.user._id,
   });
 
-  res.status(201).send({
+  res.status(201).json({
     status: 'success',
     message: 'New Order Created',
-    data: { newOrder },
+    data: null,
   });
 });
 
 exports.updateOrder = asyncHandler(async (req, res, next) => {
-  const order = await Order.findById(req.params.orderId);
+  const order = await MongooseQuery.findById(Order, req.params.orderId);
 
   if (!order)
     return next(
@@ -81,7 +73,7 @@ exports.updateOrder = asyncHandler(async (req, res, next) => {
 
   //check if order belongs to user created or user is admin
 
-  const findOrder = await Order.findOne({
+  const findOrder = await MongooseQuery.findOne(Order, {
     _id: req.params.orderId,
     userId: req.user._id,
   });
@@ -89,18 +81,22 @@ exports.updateOrder = asyncHandler(async (req, res, next) => {
   if (!findOrder && req.user.role !== 'admin')
     return next(new ErrorResponse('Not authorized to update this review', 400));
 
-  await Order.findByIdAndUpdate(req.params.orderId, req.body, {
+  await MongooseQuery.findByIdAndUpdate(Order, req.params.orderId, req.body, {
     new: true,
     runValidators: true,
   });
 
-  const updatedOrder = await Order.findById(req.params.orderId);
+  const updatedOrder = await MongooseQuery.findById(Order, req.params.orderId);
 
-  res.status(200).send({ status: 'success', data: updatedOrder });
+  res.status(200).json({
+    status: 'success',
+    message: 'Order updated Successfully',
+    data: updatedOrder,
+  });
 });
 
 exports.deleteOrder = asyncHandler(async (req, res, next) => {
-  const order = await Order.findById(req.params.orderId);
+  const order = await MongooseQuery.findById(Order, req.params.orderId);
 
   if (!order)
     return next(
@@ -111,7 +107,7 @@ exports.deleteOrder = asyncHandler(async (req, res, next) => {
     );
 
   //check if review belongs to user created or user is admin
-  const findOrder = await Order.findOne({
+  const findOrder = await MongooseQuery.findOne(Order, {
     _id: req.params.orderId,
     userId: req.user._id,
   });
@@ -119,9 +115,11 @@ exports.deleteOrder = asyncHandler(async (req, res, next) => {
   if (!findOrder && req.user.role !== 'admin')
     return next(new ErrorResponse('Not authorized to update this review', 400));
 
-  await Order.findByIdAndDelete(req.params.orderId);
+  await MongooseQuery.findByIdAndDelete(Order, req.params.orderId);
 
-  res
-    .status(204)
-    .send({ status: 'success', message: 'Order Deleted Successfully' });
+  res.status(204).json({
+    status: 'success',
+    message: 'Order Deleted Successfully',
+    data: null,
+  });
 });

@@ -35,8 +35,8 @@ exports.getPromoCode = asyncHandler(async (req, res, next) => {
   if (!promoCode)
     return next(
       new ErrorResponse(
-        404,
-        `PromoCode is not found with id of ${req.params.promoCodeId}`
+        `PromoCode is not found with id of ${req.params.promoCodeId}`,
+        404
       )
     );
 
@@ -60,7 +60,7 @@ exports.addPromoCode = asyncHandler(async (req, res, next) => {
 exports.updatePromoCode = asyncHandler(async (req, res, next) => {
   const editPromoCode = await MongooseQuery.findByIdAndUpdate(
     PromoCode,
-    req.params.categoryId,
+    req.params.promoCodeId,
     req.body,
     {
       new: true,
@@ -71,8 +71,8 @@ exports.updatePromoCode = asyncHandler(async (req, res, next) => {
   if (!editPromoCode)
     return next(
       new ErrorResponse(
-        404,
-        `PromoCode is not found with id of ${req.params.promoCodeId}`
+        `PromoCode is not found with id of ${req.params.promoCodeId}`,
+        404
       )
     );
 

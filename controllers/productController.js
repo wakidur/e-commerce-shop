@@ -87,8 +87,8 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
   if (!product)
     return next(
       new ErrorResponse(
-        404,
-        `Product is not found with id of ${req.params.productId}`
+        `Product is not found with id of ${req.params.productId}`,
+        404
       )
     );
 
@@ -100,7 +100,7 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 });
 
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  if (!req.files) return next(new ErrorResponse(400, 'Please add a photo'));
+  if (!req.files) return next(new ErrorResponse('Please add a photo', 400));
 
   console.log(req.files);
 
@@ -108,14 +108,14 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 
   //Check file type
   if (!file.mimetype.startsWith('image'))
-    return next(new ErrorResponse(400, 'This file is not supported'));
+    return next(new ErrorResponse('This file is not supported', 400));
 
   //Check file size
   if (file.size > process.env.FILE_UPLOAD_SIZE)
     return next(
       new ErrorResponse(
-        400,
-        `Please upload a image of size less than ${process.env.FILE_UPLOAD_SIZE}`
+        `Please upload a image of size less than ${process.env.FILE_UPLOAD_SIZE}`,
+        400
       )
     );
 
@@ -124,7 +124,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     { use_filename: true, folder: 'products' },
     async function (error, result) {
       if (error)
-        return next(new ErrorResponse(409, 'failed to create product'));
+        return next(new ErrorResponse('failed to create product', 409));
       const product = await Product.create({
         ...req.body,
         productImage: result.url,
