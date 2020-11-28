@@ -1,15 +1,7 @@
-/**
-
-/**
- * 3th party dependencies Modules from the npm .
- */
-const Joi = require('joi');
-
 // Own Middleware and dependency
 const asyncHandler = require('../middleware/async-middleware');
 const ErrorResponse = require('../utilities/error-response');
 const MongooseQuery = require('../utilities/mongoose-query');
-const Message = require('../utilities/message');
 
 /**
  * Schema require list
@@ -43,7 +35,7 @@ exports.getPromoCode = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     message: 'Promo Code fetch Successfully',
-    data: { promoCode },
+    data: { promocode: promoCode },
   });
 });
 
@@ -53,7 +45,7 @@ exports.addPromoCode = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     status: 'success',
     message: 'PromoCode  Create Successfully',
-    data: { promoCode },
+    data: { promocode: promoCode },
   });
 });
 
@@ -84,7 +76,7 @@ exports.updatePromoCode = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     status: 'success',
     message: 'Promo Code updated Successfully',
-    data: { updatedPromoCode },
+    data: null,
   });
 });
 

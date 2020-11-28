@@ -15,14 +15,14 @@ const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [false, 'Please add a name'],
-      trim: true,
+      trim: false,
     },
     uid: {
       type: String,
     },
     email: {
       type: String,
-      required: [true, 'Please provide your email'],
+      required: [false, 'Please provide your email'],
       index: true,
       unique: true,
       dropDups: true,

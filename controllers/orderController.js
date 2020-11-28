@@ -1,15 +1,7 @@
-/**
-
-/**
- * 3th party dependencies Modules from the npm .
- */
-const Joi = require('joi');
-
 // Own Middleware and dependency
 const asyncHandler = require('../middleware/async-middleware');
 const ErrorResponse = require('../utilities/error-response');
 const MongooseQuery = require('../utilities/mongoose-query');
-const Message = require('../utilities/message');
 
 /**
  * Schema require list
@@ -105,7 +97,6 @@ exports.deleteOrder = asyncHandler(async (req, res, next) => {
         404
       )
     );
-
   //check if review belongs to user created or user is admin
   const findOrder = await MongooseQuery.findOne(Order, {
     _id: req.params.orderId,

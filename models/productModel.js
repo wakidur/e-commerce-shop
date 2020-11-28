@@ -17,7 +17,7 @@ const ProductSchema = new mongoose.Schema(
     },
     discountRate: {
       type: Number,
-      required: [true, 'Discount Rate is required'],
+      required: [false, 'Discount Rate is required'],
     },
     priceDiscount: {
       type: Number,
