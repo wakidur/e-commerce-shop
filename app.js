@@ -18,6 +18,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 // require and configure dotenv, will load vars in .env in PROCESS.ENV
 require('dotenv').config({ path: 'config.env' });
@@ -44,10 +45,6 @@ const app = express();
 // Database Connect instantiate
 connectDB();
 
-// View Engine for Email Template
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
-
 // 1) GLOBAL MIDDLEWARES
 // Serving static files
 app.use(express.static(path.join(__dirname, 'uploads')));
@@ -68,6 +65,11 @@ app.use(cors());
 // Body parser, reading data from body into req.body
 app.use(bodyParser.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' })); // Make sure the body is parsed beforehand.
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 // Prevent parameter pollution
 app.use(hpp()); // <- THIS IS THE NEW LINE
 // Cookie parser

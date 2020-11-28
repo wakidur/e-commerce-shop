@@ -1,8 +1,4 @@
 /**
- * Node Core Modules
- */
-const path = require('path');
-/**
  * 3rd party modules from npm.
  */
 const cloudinary = require('cloudinary').v2;
@@ -121,7 +117,10 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 
   cloudinary.uploader.upload(
     file.tempFilePath,
-    { use_filename: true, folder: 'products' },
+    {
+      use_filename: true,
+      folder: 'products',
+    },
     async function (error, result) {
       if (error)
         return next(new ErrorResponse('failed to create product', 409));
