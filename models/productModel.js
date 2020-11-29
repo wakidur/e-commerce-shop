@@ -55,6 +55,7 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 
+ProductSchema.index({ name: 1 });
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
 ProductSchema.pre('save', function (next) {
   this.priceDiscount = ((this.discountRate / 100) * this.price).toFixed(2);

@@ -84,7 +84,7 @@ const advancedResults = (model, populate, findById) => async (
    *
    */
   const currentPage = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
+  const limit = parseInt(req.query.limit, 10) || 20;
   const startIndex = (currentPage - 1) * limit;
   // const endIndex = currentPage * limit;
   const totalItems = await model.countDocuments();

@@ -2,7 +2,6 @@ const router = require('express').Router();
 const {
   getProducts,
   getProduct,
-  uploadUserPhoto,
   createProduct,
   updateProduct,
   deleteProduct,

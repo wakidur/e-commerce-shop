@@ -45,7 +45,7 @@ exports.uploadUserPhoto = upload.single('productImage');
 
 exports.getProducts = asyncHandler(async (req, res, next) => {
   const { keyWord } = req.query;
-
+  console.log(keyWord);
   if (keyWord) {
     const searchItem = keyWord
       ? { name: { $regex: keyWord, $options: 'i' } }
@@ -66,7 +66,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
       status: 'success',
       message: 'Products fetching Successfully',
       data: {
-        products: res.advanceResults,
+        products: res.advancedResults,
       },
     });
   }
@@ -98,8 +98,6 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 exports.createProduct = asyncHandler(async (req, res, next) => {
   if (!req.files) return next(new ErrorResponse('Please add a photo', 400));
 
-  console.log(req.files);
-
   const file = req.files.productImage;
 
   //Check file type
@@ -118,17 +116,26 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   cloudinary.uploader.upload(
     file.tempFilePath,
     {
+      resource_type: 'image',
       use_filename: true,
       folder: 'products',
+      eager: [
+        {
+          width: 500,
+          height: 500,
+          crop: 'fill',
+        },
+      ],
+      eager_async: true,
     },
     async function (error, result) {
       if (error)
         return next(new ErrorResponse('failed to create product', 409));
       const product = await Product.create({
         ...req.body,
-        productImage: result.url,
+        productImage: result.eager[0].url,
       });
-      res.status(200).json({
+      res.status(201).json({
         status: 'success',
         message: 'Product Create Successfully',
         data: { product },
@@ -174,11 +181,12 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
   if (!deleteProduct)
     return next(
       new ErrorResponse(
-        404,
-        `User is not found with id of ${req.params.productId}`
+        `User is not found with id of ${req.params.productId}`,
+        404
       )
     );
-  res.status(204).json({
+
+  return res.status(200).json({
     status: 'success',
     message: 'Product Deleted Successfully',
     data: null,
