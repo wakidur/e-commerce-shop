@@ -15,15 +15,17 @@ const { authorize } = require('../config/authorization');
 //Product model
 const PromoCode = require('../models/promoCodeModel');
 
+router.use(protect);
+
 router
   .route('/')
   .get(advanceResults(PromoCode), getPromoCodes)
-  .post(protect, authorize('admin'), addPromoCode);
+  .post(authorize('admin'), addPromoCode);
 
 router
   .route('/:promoCodeId')
   .get(getPromoCode)
-  .put(protect, authorize('admin'), updatePromoCode)
-  .delete(protect, authorize('admin'), removePromoCode);
+  .put(authorize('admin'), updatePromoCode)
+  .delete(authorize('admin'), removePromoCode);
 
 module.exports = router;

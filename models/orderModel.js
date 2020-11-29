@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
-  productName: {
+  name: {
     type: String,
     required: [true, 'Please add a product name'],
-  },
-  qty: {
-    type: Number,
-    required: [true, 'Please add a product quantity'],
   },
   productImage: {
     type: String,
     required: [true, 'Please add a product image'],
+  },
+  quantity: {
+    type: Number,
+    required: [true, 'Please add a product quantity'],
   },
   price: {
     type: String,
@@ -40,12 +40,17 @@ const OrderSchema = new mongoose.Schema({
     },
     default: 'Pending',
   },
-  taxPrice: {
+  discountPrice: {
     type: Number,
     required: false,
   },
-  discount: {
+  discountRate: {
     type: Number,
+    required: false,
+  },
+  promoCodeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PromoCode',
     required: false,
   },
   shippingPrice: {

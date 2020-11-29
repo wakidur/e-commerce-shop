@@ -21,10 +21,16 @@ router
   .route('/')
   .get(
     authorize('admin'),
-    advanceResults(Order, {
-      path: 'userId',
-      select: 'name email',
-    }),
+    advanceResults(Order, [
+      {
+        path: 'userId',
+        select: 'uid phone role',
+      },
+      {
+        path: 'promoCodeId',
+        select: 'discountRate useTime promoCode',
+      },
+    ]),
     getOrders
   )
   .post(authorize('user', 'admin'), createOrder);

@@ -3,7 +3,7 @@
  */
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-
+const sharp = require('sharp');
 // Own Middleware and dependency
 const asyncHandler = require('../middleware/async-middleware');
 const ErrorResponse = require('../utilities/error-response');
@@ -43,9 +43,22 @@ const upload = multer({
 
 exports.uploadUserPhoto = upload.single('productImage');
 
+exports.resizeUserPhoto = asyncHandler(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/products/${req.file.filename}`);
+
+  next();
+});
+
 exports.getProducts = asyncHandler(async (req, res, next) => {
   const { keyWord } = req.query;
-  console.log(keyWord);
   if (keyWord) {
     const searchItem = keyWord
       ? { name: { $regex: keyWord, $options: 'i' } }
@@ -163,7 +176,10 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
       )
     );
 
-  const updatedProduct = await Product.findById(req.params.productId);
+  const updatedProduct = await mongooseQuery.findById(
+    Product,
+    req.params.productId
+  );
 
   res.status(201).json({
     status: 'success',
