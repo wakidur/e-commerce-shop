@@ -22,6 +22,12 @@ const ProductSchema = new mongoose.Schema(
     priceDiscount: {
       type: Number,
       required: false,
+      default: 0,
+    },
+    priceAfterDiscount: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     shippingCharge: {
       type: Number,
@@ -55,9 +61,12 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 
+ProductSchema.index({ name: 1 });
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
 ProductSchema.pre('save', function (next) {
   this.priceDiscount = ((this.discountRate / 100) * this.price).toFixed(2);
+  this.priceAfterDiscount =
+    this.discountRate > 0 ? this.price - this.priceDiscount : 0;
   next();
 });
 
