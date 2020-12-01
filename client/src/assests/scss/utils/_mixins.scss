@@ -1,0 +1,107 @@
+// project dependencies
+@mixin Common-fontStyles(
+  $fontSize,
+  $fontWeight,
+  $fontStretch,
+  $fontStyle,
+  $lineHeight,
+  $letterSpacing,
+  $color
+) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+  font-stretch: $fontStretch;
+  font-style: $fontStyle;
+  line-height: $lineHeight;
+  letter-spacing: $letterSpacing;
+  color: $color;
+}
+@mixin Common-fontstyles-withoutColor(
+  $fontSize,
+  $fontWeight,
+  $fontStretch,
+  $fontStyle,
+  $lineHeight,
+  $letterSpacing
+) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+  font-stretch: $fontStretch;
+  font-style: $fontStyle;
+  line-height: $lineHeight;
+  letter-spacing: $letterSpacing;
+}
+
+@mixin Common-padding($top, $right, $bottom, $left) {
+  padding-top: $top !important;
+  padding-right: $right !important;
+  padding-bottom: $bottom !important;
+  padding-left: $left !important;
+}
+
+@mixin Common-margin($top, $right, $bottom, $left) {
+  margin-top: $top !important;
+  margin-right: $right !important;
+  margin-bottom: $bottom !important;
+  margin-left: $left !important;
+}
+@mixin Common-boder($top, $right, $bottom, $left, $style, $color) {
+  border-top-width: $top !important;
+  border-right-width: $right !important;
+  border-bottom-width: $bottom !important;
+  border-left-width: $left !important;
+  border-style: $style !important;
+  border-color: $color !important;
+}
+@mixin Common-boderRadius($top-left, $top-right, $bottom-right, $bottom-left) {
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+  border-top-left-radius: $top-left;
+  border-top-right-radius: $top-right;
+  border-bottom-right-radius: $bottom-right;
+  border-bottom-left-radius: $bottom-left;
+}
+
+@mixin Common-transitionAllSecond(
+  $property,
+  $duration,
+  $timingFunction,
+  $delay
+) {
+  /* Specifies the name of the CSS property the transition effect is for */
+  /* Specifies how many seconds or milliseconds the transition effect takes to complete */
+  /* Specifies the speed curve of the transition effect. */
+  /* The transition-delay property specifies when the transition effect will start. */
+  -webkit-transition: $property $duration $timingFunction $delay;
+  -moz-transition: $property $duration $timingFunction $delay;
+  -ms-transition: $property $duration $timingFunction $delay;
+  -o-transition: $property $duration $timingFunction $delay;
+  transition: $property $duration $timingFunction $delay;
+}
+
+// font-size
+@mixin Common-font-size($size) {
+  font-size: $size !important;
+}
+// text-color
+@mixin Common-text-color($color) {
+  color: $color !important;
+}
+// text-align
+@mixin Common-text-align($align) {
+  text-align: $align !important;
+}
+// background-color
+@mixin Common-bg-color($bgColor) {
+  background-color: $bgColor !important;
+  background: $bgColor !important;
+}
+// height-width
+@mixin Common-height-width($height, $width) {
+  max-height: $height; //The max-height property defines the maximum height of an element.
+  min-height: $height; //The min-height property defines the minimum height of an element
+  height: $height;
+
+  max-width: $width; //The max-width property defines the maximum width of an element.
+  min-width: $width; //The min-width property defines the minimum width of an element
+  width: $width;
+}

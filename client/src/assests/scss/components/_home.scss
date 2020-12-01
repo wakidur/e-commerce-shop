@@ -1,0 +1,62 @@
+.home-contain {
+  background: $bghome;
+}
+
+// product Card 
+.product {
+
+    .col {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card {
+        @include Common-boderRadius(10px, 10px, 10px, 10px);
+        @include Common-margin(0px, 0px, 30px, 0px);
+
+        &:hover {
+            .overlay {
+                opacity: 1;
+            }
+        }
+        .card-title {
+            @include Common-fontStyles( 14px, $normal, $normal, $normal, 25px, 0.31px, $tundora);
+        }
+        .price {
+            @include Common-fontStyles( 18px, $normal, $normal, $normal, 26px, 0px, $mineShaft);
+        }
+        .discount {
+            @include Common-bg-color($turbo);
+            @include Common-boderRadius(3px, 3px, 3px, 3px);
+            @include Common-padding(2px, 7px, 2px, 7px);
+            @include Common-fontStyles( 17px, $normal, $normal, $normal, 22px, 0px, $black); 
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .5s ease;
+            @include Common-bg-color($white);
+        }
+        .add-to-cart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            @include Common-bg-color($turbo);
+            @include Common-fontStyles( 14px, $normal, $normal, $normal, 24px, 0.31px, $tundora);
+            @include Common-text-align(center);
+            @include Common-padding(5px, 16px, 5px, 16px);
+            @include Common-boder(1px, 1px, 1px, 1px, solid, $turbo);
+            @include Common-boderRadius(23px, 23px, 23px, 23px);
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+          }
+    }
+}
+
+
