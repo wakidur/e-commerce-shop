@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+// Variable
+@import './variables.scss';
+
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/font-awesome/scss/font-awesome.scss';
+
+// Utilities
+@import './utils/mixins';
+
+// components
+@import './components/header';
+@import './components/home';
+@import './components/layout';
+// Utilities
+@import './utils/responsive';
+
+

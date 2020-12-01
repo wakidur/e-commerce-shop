@@ -1,0 +1,18 @@
+.main-header {
+    .user-name-icon, .addtocart  {
+        i {
+            @include Common-text-color($mineShaft);
+            @include Common-font-size(30px);
+        }
+    }
+    .addtocart {
+        a {
+            @include Common-fontStyles( 20px, 600, $normal, $normal, 27px, 0px, $mineShaft);
+        }
+        .count {
+            @include Common-bg-color($turbo);
+            @include Common-fontStyles( 15px, 600, $normal, $normal, 17px, 0px, $black);  
+
+        }
+    }
+}
